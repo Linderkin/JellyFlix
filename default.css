@@ -1,193 +1,27 @@
 /* =============================
-   JELLYFIN 10.10.7 CUSTOM THEME
-   Netflix-Inspired Theme
+   JELLYFIN 10.10.7 THEME - ESTILO NETFLIX COMPLETO
    ============================= */
 
-/* Variables (use native when possible) */
+/* ===== 1. VARIABLES Y FUENTE ===== */
 :root {
-  --theme-accent: #e50914; /* Jellyfin native variable support */
+  --theme-accent: #e50914;
   --theme-background: #141414;
-  --theme-card-radius: 6px;
-  --deftraback: rgba(229, 9, 20, 0.2);
+  --theme-card-radius: 4px;
+  --text-light: #fff;
+  --text-muted: #b3b3b3;
+  --header-height: 60px;
+  --sidebar-width: 320px;
 }
 
-/* General Styling */
 body,
 h1,
 h2,
 h3,
-h4 {
-  font-family: "Netflix Sans", sans-serif !important;
+h4,
+h5 {
+  font-family: "Netflix Sans", Arial, sans-serif !important;
 }
 
-/* Highlight selection */
-::selection,
-::-moz-selection {
-  background: var(--theme-accent);
-  text-shadow: none;
-}
-
-/* Buttons & Inputs */
-.jf-button.show-focus:focus,
-.emby-button.show-focus:focus {
-  background: var(--theme-accent) !important;
-}
-
-.emby-input,
-.emby-textarea,
-.emby-select {
-  box-shadow: none !important;
-  background: #101010 !important;
-  color: white !important;
-  border: 2px solid #101010 !important;
-  border-radius: var(--theme-card-radius);
-  transition: 0.2s;
-}
-
-.emby-input:focus,
-.emby-select:focus {
-  border-color: var(--theme-accent) !important;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-thumb {
-  background: #505050;
-  border-radius: 10px;
-}
-
-/* ----------------------
-   CARDS & HOVER EFFECTS
-   ---------------------- */
-.cardBox,
-.card,
-.homeLibraryButton {
-  border-radius: var(--theme-card-radius);
-  background: transparent !important;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover,
-.homeLibraryButton:hover {
-  transform: scale(1.08);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-  background-color: #101010 !important;
-}
-
-/* Avoid hover scale on TV mode */
-body.jf-layout-tv .card:hover,
-body.jf-layout-tv .homeLibraryButton:hover {
-  transform: none !important;
-  box-shadow: none !important;
-}
-
-/* Card images */
-.cardImageContainer img {
-  border-radius: var(--theme-card-radius) var(--theme-card-radius) 0 0;
-}
-
-/* ----------------------
-   OSD (Player Overlay)
-   ---------------------- */
-.videoOsdBottom {
-  font-size: 110%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
-}
-
-.skinHeader-withBackground.osdHeader {
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), transparent);
-  color: #eee;
-}
-
-/* Progress slider */
-.mdl-slider::-webkit-slider-thumb,
-.mdl-slider::-moz-range-thumb,
-.mdl-slider::-ms-thumb {
-  background: var(--theme-accent);
-  border-radius: var(--theme-card-radius);
-}
-
-.mdl-slider-background-lower {
-  background-color: var(--theme-accent) !important;
-}
-
-/* ----------------------
-   LOGIN PAGE
-   ---------------------- */
-.login-page-container,
-div#loginPage {
-  background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
-    url(https://assets.nflxext.com/ffe/siteui/vlv3/03fdc4bf-72f6-4926-83a7-a76e6a1a5591/9f09b85f-530e-4090-82c3-a60ea2b3177f/US-en-20211115-popsignuptwoweeks-perspective_alpha_website_large.jpg) center/cover no-repeat !important;
-}
-
-.login-page-container .emby-input {
-  background: #333 !important;
-  border-radius: var(--theme-card-radius);
-}
-
-.login-page-container .emby-button {
-  background: var(--theme-accent) !important;
-  color: #fff !important;
-  border-radius: var(--theme-card-radius);
-  font-size: 1.2em;
-}
-
-/* ----------------------
-   LISTS & EPISODES
-   ---------------------- */
-.listItem-withContentWrapper {
-  border-radius: var(--theme-card-radius);
-  overflow: hidden;
-  background: #1a1a1a;
-}
-
-.listItemImage-large::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 50px;
-  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-}
-
-/* ----------------------
-   TOP MENU
-   ---------------------- */
-.skinHeader,
-body:not(.withSectionTabs) > .skinHeader {
-  background: linear-gradient(to bottom, rgb(5,5,5), rgba(20,20,20,0.9)) !important;
-}
-
-/* Active tab underline */
-.emby-tab-button.emby-tab-button-active::after {
-  content: "";
-  position: absolute;
-  bottom: 0.75em;
-  left: 1em;
-  width: calc(100% - 2em);
-  height: 4px;
-  background: var(--theme-accent);
-  border-radius: 10px;
-}
-
-/* ----------------------
-   CHAPTERS & DIALOGS
-   ---------------------- */
-.dialog,
-.actionSheetMenuItem:hover {
-  background: rgba(20,20,20,0.95);
-  border-radius: var(--theme-card-radius);
-}
-
-.chapterCard .innerCardFooter {
-  background: linear-gradient(0deg, black, transparent);
-}
-
-/* ----------------------
-   CUSTOM NETFLIX FONTS
-   ---------------------- */
 @font-face {
   font-family: "Netflix Sans";
   font-weight: 400;
@@ -199,12 +33,191 @@ body:not(.withSectionTabs) > .skinHeader {
   src: url(https://assets.nflxext.com/ffe/siteui/fonts/netflix-sans/v3/NetflixSans_W_Bd.woff2) format("woff2");
 }
 
-/* Subtitles styling */
-.videoSubtitles,
-video::-webkit-media-text-track-display,
-video::-webkit-media-text-track-container,
-video:cue {
-  font-family: "Netflix Sans", sans-serif !important;
+/* ===== 2. LOGIN PAGE ===== */
+#loginPage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: url(https://assets.nflxext.com/ffe/siteui/vlv3/03fdc4bf-72f6-4926-83a7-a76e6a1a5591/9f09b85f-530e-4090-82c3-a60ea2b3177f/US-en-20211115-popsignuptwoweeks-perspective_alpha_website_large.jpg) center/cover no-repeat;
+}
+#loginPage::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 0;
+}
+
+#loginPage .pageTitle {
+  position: absolute;
+  top: 30px;
+  left: 40px;
+  font-size: 2.5em;
+  font-weight: bold;
+  color: var(--theme-accent);
+  z-index: 2;
+}
+
+.manualLoginForm {
+  position: relative;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.75);
+  padding: 3em 3em 2em;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+}
+.manualLoginForm h1.sectionTitle {
+  font-size: 2em;
   font-weight: 700;
-  text-shadow: 0 0 8px rgba(0,0,0,1);
+  color: var(--text-light);
+  margin-bottom: 1.5em;
+  text-align: left;
+}
+
+.manualLoginForm .inputContainer label {
+  display: none !important;
+}
+
+.manualLoginForm .emby-input {
+  background: #333 !important;
+  border: 1px solid #555 !important;
+  border-radius: var(--theme-card-radius) !important;
+  color: var(--text-light) !important;
+  font-size: 1em !important;
+  padding: 1em !important;
+  margin-bottom: 1.2em !important;
+}
+.manualLoginForm .emby-input::placeholder {
+  color: #b3b3b3;
+  font-size: 1em;
+}
+.manualLoginForm .emby-input:focus {
+  outline: none !important;
+  border: 1px solid var(--text-light) !important;
+}
+
+.manualLoginForm .emby-button.submit {
+  background: var(--theme-accent) !important;
+  color: #fff !important;
+  font-weight: bold !important;
+  padding: 0.8em !important;
+  border-radius: var(--theme-card-radius) !important;
+  font-size: 1.1em !important;
+  margin-top: 0.5em !important;
+  cursor: pointer !important;
+  width: 100% !important;
+  text-transform: none !important;
+}
+.manualLoginForm .emby-button.submit:hover {
+  background: #f6121d !important;
+}
+
+/* Bloque de botones secundarios */
+.readOnlyContent {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  margin-top: 1em !important;
+}
+.readOnlyContent::before {
+  content: "O";
+  color: #b3b3b3;
+  font-size: 0.9em;
+  margin-bottom: 1em;
+  display: block;
+  text-align: center;
+}
+.readOnlyContent .secondary-button {
+  background: #333 !important;
+  color: #fff !important;
+  font-weight: bold !important;
+  border-radius: var(--theme-card-radius) !important;
+  padding: 0.8em !important;
+  font-size: 1em !important;
+  text-align: center !important;
+  width: 100% !important;
+  margin-bottom: 0.8em !important;
+}
+.readOnlyContent .secondary-button:hover {
+  background: #444 !important;
+}
+
+/* Enlaces tipo Netflix */
+.manualLoginForm .forgot-link,
+.manualLoginForm .signup-text {
+  color: var(--text-light) !important;
+  font-size: 0.9em !important;
+  text-align: center;
+  display: block;
+  margin-top: 1em;
+}
+.manualLoginForm .signup-text span {
+  color: #fff !important;
+  font-weight: bold !important;
+}
+
+/* Checkbox */
+.checkboxContainer .checkboxLabel {
+  color: var(--text-light);
+  font-size: 0.9em;
+}
+
+/* ===== 3. SIDEBAR Y CABECERA ===== */
+.mainDrawer {
+  background: #000 !important;
+  width: var(--sidebar-width) !important;
+}
+.mainDrawer .navMenuOption {
+  color: #b3b3b3 !important;
+  padding: 1em;
+  text-align: center;
+}
+.mainDrawer .navMenuOption:hover,
+.mainDrawer .navMenuOption-selected {
+  color: var(--theme-accent) !important;
+}
+
+.header {
+  background: rgba(0, 0, 0, 0.8) !important;
+  height: var(--header-height);
+}
+
+/* ===== 4. CARDS Y HOVER ===== */
+.card {
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+}
+
+/* ===== 5. BOTONES GENERALES ===== */
+.button-flat,
+.button-raised {
+  background: var(--theme-accent) !important;
+  color: #fff !important;
+}
+.button-flat:hover,
+.button-raised:hover {
+  background: #f6121d !important;
+}
+
+/* ===== 6. TEXTO Y DETALLES ===== */
+body,
+html {
+  background-color: var(--theme-background) !important;
+  color: var(--text-light);
 }
