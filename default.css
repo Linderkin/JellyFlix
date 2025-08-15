@@ -1,5 +1,5 @@
 /* =============================
-   JELLYFIN 10.10.7 THEME - ESTILO NETFLIX COMPLETO
+   JELLYFIN 10.10.7 THEME – ESTILO NETFLIX COMPLETO (PATCH + MENU/AVATAR)
    ============================= */
 
 /* ===== 1. VARIABLES Y FUENTE ===== */
@@ -13,12 +13,7 @@
   --sidebar-width: 320px;
 }
 
-body,
-h1,
-h2,
-h3,
-h4,
-h5 {
+body, h1, h2, h3, h4, h5 {
   font-family: "Netflix Sans", Arial, sans-serif !important;
 }
 
@@ -33,26 +28,23 @@ h5 {
   src: url(https://assets.nflxext.com/ffe/siteui/fonts/netflix-sans/v3/NetflixSans_W_Bd.woff2) format("woff2");
 }
 
-/* ===== 2. LOGIN PAGE ===== */
+/* ===== 2. LOGIN ===== */
 #loginPage {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: url(https://assets.nflxext.com/ffe/siteui/vlv3/03fdc4bf-72f6-4926-83a7-a76e6a1a5591/9f09b85f-530e-4090-82c3-a60ea2b3177f/US-en-20211115-popsignuptwoweeks-perspective_alpha_website_large.jpg) center/cover no-repeat;
+  /* Fondo tipo Netflix */
+  background: url(https://assets.nflxext.com/ffe/siteui/vlv3/03fdc4bf-72f6-4926-83a7-a76e6a1a5591/9f09b85f-530e-4090-82c3-a60ea2b3177f/US-en-20211115-popsignuptwoweeks-perspective_alpha_website_large.jpg) center/cover no-repeat !important;
 }
 #loginPage::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0, 0, 0, 0.65);
   z-index: 0;
 }
-
 #loginPage .pageTitle {
   position: absolute;
   top: 30px;
@@ -83,9 +75,9 @@ h5 {
   text-align: left;
 }
 
-.manualLoginForm .inputContainer label {
-  display: none !important;
-}
+/* Oculta labels y simula placeholders SIN tocar HTML */
+.manualLoginForm .inputContainer { position: relative; }
+.manualLoginForm .inputContainer label { display: none !important; }
 
 .manualLoginForm .emby-input {
   background: #333 !important;
@@ -96,15 +88,46 @@ h5 {
   padding: 1em !important;
   margin-bottom: 1.2em !important;
 }
-.manualLoginForm .emby-input::placeholder {
-  color: #b3b3b3;
-  font-size: 1em;
-}
 .manualLoginForm .emby-input:focus {
   outline: none !important;
   border: 1px solid var(--text-light) !important;
 }
 
+/* Placeholders “falsos” usando :has() (Chrome/Edge/Safari modernos) */
+.inputContainer:has(#txtManualName)::before {
+  content: "Usuario";
+  position: absolute;
+  left: 1em;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #b3b3b3;
+  pointer-events: none;
+}
+#txtManualName:not(:placeholder-shown),
+#txtManualName:focus { background-color: #333; }
+#txtManualName:focus ~ * ,
+#txtManualName[value]:not([value=""]) ~ * { opacity: 1; }
+#txtManualName:focus ~ * ,
+#txtManualName:not(:placeholder-shown) ~ * { opacity: 1; }
+/* Oculta el pseudo placeholder cuando hay texto o foco */
+#txtManualName:focus + * ,
+#txtManualName:where(:not(:placeholder-shown)) + * { opacity: 1; }
+.inputContainer:has(#txtManualName):has(#txtManualName:focus)::before,
+.inputContainer:has(#txtManualName):has(#txtManualName[value]:not([value=""]))::before { content: ""; }
+
+.inputContainer:has(#txtManualPassword)::before {
+  content: "Contraseña";
+  position: absolute;
+  left: 1em;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #b3b3b3;
+  pointer-events: none;
+}
+.inputContainer:has(#txtManualPassword):has(#txtManualPassword:focus)::before,
+.inputContainer:has(#txtManualPassword):has(#txtManualPassword[value]:not([value=""]))::before { content: ""; }
+
+/* Botón principal */
 .manualLoginForm .emby-button.submit {
   background: var(--theme-accent) !important;
   color: #fff !important;
@@ -117,83 +140,166 @@ h5 {
   width: 100% !important;
   text-transform: none !important;
 }
-.manualLoginForm .emby-button.submit:hover {
-  background: #f6121d !important;
+.manualLoginForm .emby-button.submit:hover { background: #f6121d !important; }
+
+/* Oculta los botones secundarios bajo “Conectar” */
+.readOnlyContent, .readOnlyContent * { display: none !important; }
+
+/* ===== 3. HEADER ESTILO NETFLIX (tu base mantenida) ===== */
+.skinHeader {
+  background: rgba(0, 0, 0, 0.9) !important;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: "Netflix Sans", Arial, sans-serif !important;
+  /* Asegura que los menús flotantes no se recorten */
+  overflow: visible !important;
 }
 
-/* Bloque de botones secundarios */
-.readOnlyContent {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 100% !important;
-  margin-top: 1em !important;
+/* Primera fila */
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;                  /* <- tu altura preferida */
+  padding: 0 1.5em;
+  gap: 1em;
+  overflow: visible !important;  /* no recortar menús */
 }
-.readOnlyContent::before {
-  content: "O";
-  color: #b3b3b3;
-  font-size: 0.9em;
-  margin-bottom: 1em;
-  display: block;
-  text-align: center;
+.headerTop .headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 1em;
 }
-.readOnlyContent .secondary-button {
-  background: #333 !important;
-  color: #fff !important;
-  font-weight: bold !important;
-  border-radius: var(--theme-card-radius) !important;
-  padding: 0.8em !important;
-  font-size: 1em !important;
-  text-align: center !important;
-  width: 100% !important;
-  margin-bottom: 0.8em !important;
-}
-.readOnlyContent .secondary-button:hover {
-  background: #444 !important;
-}
-
-/* Enlaces tipo Netflix */
-.manualLoginForm .forgot-link,
-.manualLoginForm .signup-text {
-  color: var(--text-light) !important;
-  font-size: 0.9em !important;
-  text-align: center;
-  display: block;
-  margin-top: 1em;
-}
-.manualLoginForm .signup-text span {
-  color: #fff !important;
-  font-weight: bold !important;
-}
-
-/* Checkbox */
-.checkboxContainer .checkboxLabel {
+.headerTop .pageTitle {
   color: var(--text-light);
-  font-size: 0.9em;
+  font-size: 1.2em;
+  font-weight: 600;
+  margin-left: 0.5em;
 }
 
-/* ===== 3. SIDEBAR Y CABECERA ===== */
+/* Contenedor derecho (iconos + avatar) */
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 1.5em;
+  overflow: visible !important;  /* para desplegables */
+}
+
+/* AVATAR redondo sin deformación (usa el DIV con background-image inline) */
+.headerRight .headerUserButtonRound {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  display: inline-block;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.headerRight .headerUserButton {      /* el BUTTON */
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0 !important;
+  border-radius: 50%;
+  overflow: visible !important;       /* no recortar el menú */
+}
+
+/* Segunda fila (tabs Netflix) */
+.headerTabs.sectionTabs {
+  display: flex;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.9);
+  padding: 0 1.5em;
+  height: 50px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: visible !important;
+}
+
+/* Scroll horizontal oculto */
+.headerTabs .emby-tabs-slider {
+  display: flex;
+  gap: 2em;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.headerTabs .emby-tabs-slider::-webkit-scrollbar { display: none; }
+
+/* Estilo de cada tab */
+.headerTabs .emby-tab-button {
+  background: none !important;
+  color: var(--text-light) !important;
+  font-size: 1em !important;
+  font-weight: 500;
+  font-family: "Netflix Sans", Arial, sans-serif !important;
+  position: relative;
+  padding: 0.5em 0;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+.headerTabs .emby-tab-button .emby-button-foreground { font-family: inherit !important; }
+.headerTabs .emby-tab-button:hover { color: #e5e5e5 !important; }
+
+/* Línea roja activa */
+.headerTabs .emby-tab-button.emby-tab-button-active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--theme-accent);
+}
+
+/* ===== 4. MENÚ DE USUARIO (asegurar visibilidad) ===== */
+/* Eleva menús/contextuales por si algo los tapaba */
+.dialog, .paperMenu, .paperList, .mdl-menu__container, .actionSheet, .selectMenu, .emby-menu,
+.menuPage, .contextMenu, #userMenu, [data-role="menu"] {
+  z-index: 9999 !important;
+}
+/* Evita clipping por contenedores padres */
+.skinHeader *, .headerTop *, .header, .pageContainer, .mainDrawer, .content-primary {
+  overflow: visible !important;
+}
+
+/* ===== 5. SIDEBAR ===== */
 .mainDrawer {
-  background: #000 !important;
+  background: rgba(0, 0, 0, 0.85) !important;
   width: var(--sidebar-width) !important;
 }
 .mainDrawer .navMenuOption {
-  color: #b3b3b3 !important;
+  color: var(--text-light) !important;
   padding: 1em;
-  text-align: center;
+  text-align: left;
+  font-size: 1.05em;
 }
 .mainDrawer .navMenuOption:hover,
 .mainDrawer .navMenuOption-selected {
   color: var(--theme-accent) !important;
+  background: rgba(255, 255, 255, 0.06);
 }
 
-.header {
-  background: rgba(0, 0, 0, 0.8) !important;
-  height: var(--header-height);
+/* ===== 6. HOME / TÍTULOS SIN FONDOS ===== */
+.sectionTitleContainer,
+.sectionTitleContainer-cards,
+.sectionTitle,
+.sectionTitle a,
+.sectionTitleTextButton,
+.sectionTitleTextButton>.button-flat,
+.sectionTitleTextButton>.button-link {
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--text-light) !important;
 }
+.sectionTitle a,
+.sectionTitleTextButton a { color: var(--text-light) !important; }
 
-/* ===== 4. CARDS Y HOVER ===== */
+/* ===== 7. CARDS ===== */
 .card {
   border-radius: 6px;
   overflow: hidden;
@@ -204,20 +310,21 @@ h5 {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
 }
 
-/* ===== 5. BOTONES GENERALES ===== */
+/* ===== 8. BOTONES GENERALES ===== */
 .button-flat,
-.button-raised {
+.button-raised,
+.raised.emby-button {
   background: var(--theme-accent) !important;
   color: #fff !important;
 }
 .button-flat:hover,
-.button-raised:hover {
+.button-raised:hover,
+.raised.emby-button:hover {
   background: #f6121d !important;
 }
 
-/* ===== 6. TEXTO Y DETALLES ===== */
-body,
-html {
+/* ===== 9. FONDO GENERAL ===== */
+body, html {
   background-color: var(--theme-background) !important;
   color: var(--text-light);
 }
